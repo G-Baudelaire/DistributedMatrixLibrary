@@ -1,0 +1,5 @@
+Attempt 1
+Make two new two-dimensional arrays
+One of them are the new smoothed values, the other the difference from the prior value to measure precision
+Superstepping computing the new values and their differences, when we go back to a single thread we measure the max difference in precision.
+
