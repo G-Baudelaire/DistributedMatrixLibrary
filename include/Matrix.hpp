@@ -48,8 +48,6 @@ public:
     }
   }
 
-  // std::ostream &operator<<(std::ostream &outputStream);
-
   template<std::signed_integral I, std::signed_integral J>
   T &operator()(I row, J column);
 
