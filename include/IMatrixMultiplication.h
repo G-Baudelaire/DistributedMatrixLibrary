@@ -20,4 +20,4 @@ struct IMatrixMultiplication {
 
   virtual Matrix<int> operator()(const Matrix<int> &matrixA, const Matrix<int> &matrixB) const = 0;
 };
-#endif //MATRIXCALCULATOR_IMATRIXMULTIPLICATION_H
+#endif // MATRIXCALCULATOR_IMATRIXMULTIPLICATION_H

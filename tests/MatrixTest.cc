@@ -13,26 +13,16 @@ protected:
   Matrix<int> matrixC;
   Matrix<float> matrixD;
 
-  MatrixTest()
-    : matrixA({{1, 2}, {3, 4}}),
-      constMatrixA({{1, 2}, {3, 4}}),
-      matrixB({{1, 2}, {3, 4}}),
-      matrixC({{0, 0}, {0, 0}}),
-      matrixD({{0, 0}, {0, 0}}) {
-  }
+  MatrixTest() :
+      matrixA({{1, 2}, {3, 4}}), constMatrixA({{1, 2}, {3, 4}}), matrixB({{1, 2}, {3, 4}}), matrixC({{0, 0}, {0, 0}}),
+      matrixD({{0, 0}, {0, 0}}) {}
 };
 
-TEST_F(MatrixTest, EqualityByReference) {
-  EXPECT_EQ(matrixA, matrixA);
-}
+TEST_F(MatrixTest, EqualityByReference) { EXPECT_EQ(matrixA, matrixA); }
 
-TEST_F(MatrixTest, EqualityByValue) {
-  EXPECT_EQ(matrixA, matrixB);
-}
+TEST_F(MatrixTest, EqualityByValue) { EXPECT_EQ(matrixA, matrixB); }
 
-TEST_F(MatrixTest, InequalityByValue) {
-  EXPECT_NE(matrixA, matrixC);
-}
+TEST_F(MatrixTest, InequalityByValue) { EXPECT_NE(matrixA, matrixC); }
 
 TEST_F(MatrixTest, ReadValues) {
   EXPECT_EQ(matrixA(0, 0), 1);
@@ -64,14 +54,14 @@ TEST_F(MatrixTest, ConstReadSizeTypeOutOfRangeValues) {
   EXPECT_ANY_THROW(constMatrixA(two, two));
 }
 
-TEST_F(MatrixTest, ReadSignedOutOfRangealues) {
+TEST_F(MatrixTest, ReadSignedOutOfRangeValues) {
   EXPECT_ANY_THROW(matrixA(-1, 0));
   EXPECT_ANY_THROW(matrixA(0, -1));
   EXPECT_ANY_THROW(matrixA(2, 0));
   EXPECT_ANY_THROW(matrixA(0, 2));
 }
 
-TEST_F(MatrixTest, ConstReadSignedOutOfRangealues) {
+TEST_F(MatrixTest, ConstReadSignedOutOfRangeValues) {
   EXPECT_ANY_THROW(constMatrixA(-1, 0));
   EXPECT_ANY_THROW(constMatrixA(0, -1));
   EXPECT_ANY_THROW(constMatrixA(2, 0));
@@ -100,12 +90,12 @@ TEST_F(MatrixTest, FillMethod) {
 
 TEST_F(MatrixTest, ResizeToSameSize) {
   matrixA.resize(2, 2, 1);
-  EXPECT_EQ(matrixA, Matrix({{1, 1},{1, 1}}));
+  EXPECT_EQ(matrixA, Matrix({{1, 1}, {1, 1}}));
 }
 
 TEST_F(MatrixTest, ResizeLarger) {
   matrixA.resize(3, 3, 1);
-  EXPECT_EQ(matrixA, Matrix({{1, 1, 1},{1, 1, 1}, {1, 1, 1}}));
+  EXPECT_EQ(matrixA, Matrix({{1, 1, 1}, {1, 1, 1}, {1, 1, 1}}));
 }
 
 TEST_F(MatrixTest, ResizeSmaller) {
@@ -113,18 +103,10 @@ TEST_F(MatrixTest, ResizeSmaller) {
   EXPECT_EQ(matrixA, Matrix({{1}}));
 }
 
-TEST_F(MatrixTest, ZeroRowResize) {
-  EXPECT_ANY_THROW(matrixA.resize(0, 1, 1););
-}
+TEST_F(MatrixTest, ZeroRowResize) { EXPECT_ANY_THROW(matrixA.resize(0, 1, 1);); }
 
-TEST_F(MatrixTest, ZeroColumnResize) {
-  EXPECT_ANY_THROW(matrixA.resize(1, 0, 1););
-}
+TEST_F(MatrixTest, ZeroColumnResize) { EXPECT_ANY_THROW(matrixA.resize(1, 0, 1);); }
 
-TEST_F(MatrixTest, NegativeRowResize) {
-  EXPECT_ANY_THROW(matrixA.resize(-1, 1, 1););
-}
+TEST_F(MatrixTest, NegativeRowResize) { EXPECT_ANY_THROW(matrixA.resize(-1, 1, 1);); }
 
-TEST_F(MatrixTest, NegativeColumnResize) {
-  EXPECT_ANY_THROW(matrixA.resize(1, -1, 1););
-}
+TEST_F(MatrixTest, NegativeColumnResize) { EXPECT_ANY_THROW(matrixA.resize(1, -1, 1);); }

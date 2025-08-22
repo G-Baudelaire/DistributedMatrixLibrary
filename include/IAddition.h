@@ -23,4 +23,4 @@ struct IAddition {
 };
 
 
-#endif //MATRIXCALCULATOR_IADDITION_H
+#endif // MATRIXCALCULATOR_IADDITION_H

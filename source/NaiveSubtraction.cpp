@@ -21,9 +21,7 @@ Matrix<T> NaiveSubtraction::subtractionImplementation(const Matrix<T> &matrixA, 
   return result;
 }
 
-std::unique_ptr<ISubtraction> NaiveSubtraction::clone() const {
-  return std::make_unique<NaiveSubtraction>(*this);
-}
+std::unique_ptr<ISubtraction> NaiveSubtraction::clone() const { return std::make_unique<NaiveSubtraction>(*this); }
 
 Matrix<float> NaiveSubtraction::operator()(const Matrix<float> &matrixA, const Matrix<float> &matrixB) const {
   return subtractionImplementation(matrixA, matrixB);

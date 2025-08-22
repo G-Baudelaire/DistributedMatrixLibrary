@@ -22,9 +22,7 @@ Matrix<T> NaiveAddition::additionImplementation(const Matrix<T> &matrixA, const 
   return result;
 }
 
-std::unique_ptr<IAddition> NaiveAddition::clone() const {
-  return std::make_unique<NaiveAddition>(*this);
-}
+std::unique_ptr<IAddition> NaiveAddition::clone() const { return std::make_unique<NaiveAddition>(*this); }
 
 Matrix<float> NaiveAddition::operator()(const Matrix<float> &matrixA, const Matrix<float> &matrixB) const {
   return additionImplementation(matrixA, matrixB);

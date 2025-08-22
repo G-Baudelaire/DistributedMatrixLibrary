@@ -6,9 +6,9 @@ cmake_minimum_required(VERSION 4.0)
 
 include(FetchContent)
 FetchContent_Declare(
-        googletest
-        URL https://github.com/google/googletest/archive/6986c2b575f77135401a4e1c65a7a42f20e18fef.zip
-        DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+  googletest
+  URL https://github.com/google/googletest/archive/6986c2b575f77135401a4e1c65a7a42f20e18fef.zip
+  DOWNLOAD_EXTRACT_TIMESTAMP TRUE
 )
 
 # For Windows: Prevent overriding the parent project's compiler/linker settings
@@ -18,13 +18,17 @@ FetchContent_MakeAvailable(googletest)
 enable_testing()
 
 add_executable(DMLibTests
-        MatrixTest.cc
-        AdditionTest.cpp
+  MatrixTest.cc
+  AdditionTest.cc
+  MultiplicationTest.cc
+  SubtractionTest.cc
+  MatrixMultiplication.cc
 )
+
 target_link_libraries(DMLibTests
-        PRIVATE
-        DMLib
-        GTest::gtest_main
+  PRIVATE
+  DMLib
+  GTest::gtest_main
 )
 
 include(GoogleTest)

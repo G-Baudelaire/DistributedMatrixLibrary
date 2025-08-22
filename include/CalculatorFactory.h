@@ -10,4 +10,4 @@ class CalculatorFactory {
 public:
   static Calculator makeNaiveCalculator();
 };
-#endif //MATRIXCALCULATOR_CALCULATORFACTORY_H
+#endif // MATRIXCALCULATOR_CALCULATORFACTORY_H

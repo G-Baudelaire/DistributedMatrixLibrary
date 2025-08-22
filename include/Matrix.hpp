@@ -3,24 +3,23 @@
 //
 
 #pragma once
-#include <vector>
+#include <algorithm>
+#include <complex>
 #include <cstddef>
 #include <initializer_list>
-#include <type_traits>
-#include <complex>
 #include <stdexcept>
-#include <algorithm>
+#include <type_traits>
+#include <vector>
 
 // ---- Numeric concept/trait ----
 template<class T>
-struct is_std_complex : std::false_type {
-};
+struct is_std_complex : std::false_type {};
 
 template<class U>
-struct is_std_complex<std::complex<U> > : std::true_type {
-};
+struct is_std_complex<std::complex<U> > : std::true_type {};
 
-template<class T>concept Numeric = std::is_arithmetic_v<T> || is_std_complex<T>::value;
+template<class T>
+concept Numeric = std::is_arithmetic_v<T> || is_std_complex<T>::value;
 
 template<Numeric T>
 class Matrix {
@@ -90,7 +89,9 @@ const T& Matrix<T>::operator()(const size_type row, const size_type column) cons
 }
 
 template<Numeric T>
-void Matrix<T>::fill(const T& v) { std::fill(data_.begin(), data_.end(), v); }
+void Matrix<T>::fill(const T& v) {
+  std::fill(data_.begin(), data_.end(), v);
+}
 
 template<Numeric T>
 void Matrix<T>::resize(const size_type rows, const size_type columns, const T& init) {
@@ -116,9 +117,8 @@ Matrix<T>::size_type Matrix<T>::index(const size_type row, const size_type colum
 }
 
 template<Numeric T>
-Matrix<T>::Matrix(const size_type rows, const size_type columns, const T& initializer)
-  : rows_(rows), columns_(columns), data_(rows * columns, initializer) {
-}
+Matrix<T>::Matrix(const size_type rows, const size_type columns, const T& initializer) :
+    rows_(rows), columns_(columns), data_(rows * columns, initializer) {}
 
 template<Numeric T>
 Matrix<T>::Matrix(std::initializer_list<std::initializer_list<T> > initializer) {

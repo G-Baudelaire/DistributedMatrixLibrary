@@ -18,15 +18,12 @@ class Calculator {
 
 public:
   Calculator(
-    std::unique_ptr<IMultiplication> multiplication,
-    std::unique_ptr<IMatrixMultiplication> matrixMultiplication,
-    std::unique_ptr<IAddition> addition,
-    std::unique_ptr<ISubtraction> subtraction)
-    : multiplication_(std::move(multiplication)),
-      matrixMultiplication_(std::move(matrixMultiplication)),
-      addition_(std::move(addition)),
-      subtraction_(std::move(subtraction)) {
-  }
+      std::unique_ptr<IMultiplication> multiplication,
+      std::unique_ptr<IMatrixMultiplication> matrixMultiplication,
+      std::unique_ptr<IAddition> addition,
+      std::unique_ptr<ISubtraction> subtraction) :
+      multiplication_(std::move(multiplication)), matrixMultiplication_(std::move(matrixMultiplication)),
+      addition_(std::move(addition)), subtraction_(std::move(subtraction)) {}
 
   template<class T>
   Matrix<T> Multiply(const T &scalar, const Matrix<T> &matrix) {
@@ -54,4 +51,4 @@ public:
   }
 };
 
-#endif //PARALLELMATRIXSMOOTHING_MATRIXCOMPUTER_H
+#endif // PARALLELMATRIXSMOOTHING_MATRIXCOMPUTER_H

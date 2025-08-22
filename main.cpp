@@ -5,8 +5,8 @@
 #include <iostream>
 
 #include "include/Calculator.h"
-#include "include/Matrix.hpp"
 #include "include/CalculatorFactory.h"
+#include "include/Matrix.hpp"
 
 int main(int argc, char *argv[]) {
   const Matrix<float> A{{1, 0}, {0, 1}};
@@ -32,5 +32,4 @@ int main(int argc, char *argv[]) {
   std::cout << matrixMultiplication << std::endl;
   std::cout << "\n" << std::endl;
   std::cout << C << std::endl;
-  // std::cout << A(static_cast<size_t>(-3), static_cast<size_t>(1000)) << std::endl;
 }

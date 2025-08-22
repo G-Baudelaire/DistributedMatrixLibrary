@@ -6,23 +6,8 @@
 
 
 template<class T>
-Matrix<T> NaiveMatrixMultiplication::MatrixMultiplicationImplementation(
-  const Matrix<T>& matrixA,
-  const Matrix<T>& matrixB) const {
-  Matrix<T> result(matrixA.rows(), matrixB.columns(), T{});
-
-  if (matrixA.columns() != matrixB.rows()) { throw std::invalid_argument("Matrix A columns must equal matrix B row."); }
-
-  for (size_t row = 0; row < matrixA.rows(); row++) {
-    for (size_t column = 0; column < matrixA.columns(); column++) {
-      result(row, column) = dot_product();
-    }
-  }
-  return result;
-}
-
-template<class T>
-T DotProduct(Matrix<T>& matrixA, Matrix<T>& matrixB, size_t matrixARow, size_t matrixBColumn) {
+T NaiveMatrixMultiplication::DotProduct(
+    const Matrix<T>& matrixA, const Matrix<T>& matrixB, const size_t matrixARow, const size_t matrixBColumn) const {
   T sum{};
 
   for (size_t i = 0; i < matrixA.columns(); i++) {
@@ -31,6 +16,24 @@ T DotProduct(Matrix<T>& matrixA, Matrix<T>& matrixB, size_t matrixARow, size_t m
 
   return sum;
 }
+
+template<class T>
+Matrix<T> NaiveMatrixMultiplication::MatrixMultiplicationImplementation(
+    const Matrix<T>& matrixA, const Matrix<T>& matrixB) const {
+  Matrix<T> result(matrixA.rows(), matrixB.columns(), T{});
+
+  if (matrixA.columns() != matrixB.rows()) {
+    throw std::invalid_argument("Matrix A columns must equal matrix B row.");
+  }
+
+  for (size_t row = 0; row < matrixA.rows(); row++) {
+    for (size_t column = 0; column < matrixB.columns(); column++) {
+      result(row, column) = DotProduct(matrixA, matrixB, row, column);
+    }
+  }
+  return result;
+}
+
 
 std::unique_ptr<IMatrixMultiplication> NaiveMatrixMultiplication::clone() const {
   return std::make_unique<NaiveMatrixMultiplication>(*this);
@@ -41,8 +44,7 @@ Matrix<float> NaiveMatrixMultiplication::operator()(const Matrix<float>& matrixA
 }
 
 Matrix<double> NaiveMatrixMultiplication::operator()(
-  const Matrix<double>& matrixA,
-  const Matrix<double>& matrixB) const {
+    const Matrix<double>& matrixA, const Matrix<double>& matrixB) const {
   return MatrixMultiplicationImplementation(matrixA, matrixB);
 }
 

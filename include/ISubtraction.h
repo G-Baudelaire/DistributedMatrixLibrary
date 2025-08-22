@@ -20,4 +20,4 @@ struct ISubtraction {
 
   virtual Matrix<int> operator()(const Matrix<int> &matrixA, const Matrix<int> &matrixB) const = 0;
 };
-#endif //MATRIXCALCULATOR_ISUBTRACTION_H
+#endif // MATRIXCALCULATOR_ISUBTRACTION_H

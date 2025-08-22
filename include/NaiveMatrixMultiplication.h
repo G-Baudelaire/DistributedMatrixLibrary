@@ -8,6 +8,9 @@
 
 class NaiveMatrixMultiplication final : public IMatrixMultiplication {
   template<class T>
+  T DotProduct(const Matrix<T> &matrixA, const Matrix<T> &matrixB, size_t matrixARow, size_t matrixBColumn) const;
+
+  template<class T>
   Matrix<T> MatrixMultiplicationImplementation(const Matrix<T> &matrixA, const Matrix<T> &matrixB) const;
 
 public:
@@ -21,4 +24,4 @@ public:
 };
 
 
-#endif //MATRIXCALCULATOR_NAIVEMATRIXMULTIPLICATION_H
+#endif // MATRIXCALCULATOR_NAIVEMATRIXMULTIPLICATION_H

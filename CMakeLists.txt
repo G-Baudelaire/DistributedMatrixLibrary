@@ -5,7 +5,7 @@ project(DMLib)
 set(CMAKE_CXX_STANDARD 26)
 set(CMAKE_CXX_STANDARD_REQUIRED 26)
 
-find_package(MPI REQUIRED)
+#find_package(MPI REQUIRED)
 
 # --- Library with your production sources ---
 add_library(DMLib

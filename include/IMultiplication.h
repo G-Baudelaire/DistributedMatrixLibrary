@@ -14,12 +14,12 @@ struct IMultiplication {
 
   [[nodiscard]] virtual std::unique_ptr<IMultiplication> clone() const = 0;
 
-  virtual Matrix<float> operator()(const float &scalar, const Matrix<float> &matrix) const =0;
+  virtual Matrix<float> operator()(const float &scalar, const Matrix<float> &matrix) const = 0;
 
-  virtual Matrix<double> operator()(const double &scalar, const Matrix<double> &matrix) const =0;
+  virtual Matrix<double> operator()(const double &scalar, const Matrix<double> &matrix) const = 0;
 
-  virtual Matrix<int> operator()(const int &scalar, const Matrix<int> &matrix) const =0;
+  virtual Matrix<int> operator()(const int &scalar, const Matrix<int> &matrix) const = 0;
 };
 
 
-#endif //MATRIXCALCULATOR_IMULTIPLICATION_H
+#endif // MATRIXCALCULATOR_IMULTIPLICATION_H
