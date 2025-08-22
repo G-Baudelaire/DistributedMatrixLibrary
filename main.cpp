@@ -32,4 +32,5 @@ int main(int argc, char *argv[]) {
   std::cout << matrixMultiplication << std::endl;
   std::cout << "\n" << std::endl;
   std::cout << C << std::endl;
+  // std::cout << A(static_cast<size_t>(-3), static_cast<size_t>(1000)) << std::endl;
 }
