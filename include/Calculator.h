@@ -2,8 +2,9 @@
 // Created by Germain Jones on 19/08/2025.
 //
 
-#ifndef PARALLELMATRIXSMOOTHING_MATRIXCOMPUTER_H
-#define PARALLELMATRIXSMOOTHING_MATRIXCOMPUTER_H
+#ifndef DMLIB_CALCULATOR_H
+#define DMLIB_CALCULATOR_H
+
 #include "IAddition.h"
 #include "IMatrixMultiplication.h"
 #include "IMultiplication.h"
@@ -51,4 +52,4 @@ public:
   }
 };
 
-#endif // PARALLELMATRIXSMOOTHING_MATRIXCOMPUTER_H
+#endif // DMLIB_CALCULATOR_H

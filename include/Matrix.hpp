@@ -2,7 +2,9 @@
 // Created by Germain Jones on 19/08/2025.
 //
 
-#pragma once
+#ifndef DMLIB_MATRIX_H
+#define DMLIB_MATRIX_H
+
 #include <algorithm>
 #include <complex>
 #include <cstddef>
@@ -172,3 +174,5 @@ std::ostream& operator<<(std::ostream& outputStream, const Matrix<T>& matrix) {
   outputStream << ']';
   return outputStream;
 }
+
+#endif // DMLIB_MATRIX_H

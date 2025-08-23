@@ -2,8 +2,8 @@
 // Created by Germain Jones on 19/08/2025.
 //
 
-#ifndef MATRIXCALCULATOR_SUBTRACTION_H
-#define MATRIXCALCULATOR_SUBTRACTION_H
+#ifndef DMLIB_NAIVESUBTRACTION_H
+#define DMLIB_NAIVESUBTRACTION_H
 #include "ISubtraction.h"
 
 
@@ -22,4 +22,4 @@ public:
 };
 
 
-#endif // MATRIXCALCULATOR_SUBTRACTION_H
+#endif // DMLIB_NAIVESUBTRACTION_H

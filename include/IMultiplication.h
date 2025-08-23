@@ -2,8 +2,8 @@
 // Created by Germain Jones on 19/08/2025.
 //
 
-#ifndef MATRIXCALCULATOR_IMULTIPLICATION_H
-#define MATRIXCALCULATOR_IMULTIPLICATION_H
+#ifndef DMLIB_IMULTIPLICATION_H
+#define DMLIB_IMULTIPLICATION_H
 #include <memory>
 
 #include "Matrix.hpp"
@@ -22,4 +22,4 @@ struct IMultiplication {
 };
 
 
-#endif // MATRIXCALCULATOR_IMULTIPLICATION_H
+#endif // DMLIB_IMULTIPLICATION_H

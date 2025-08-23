@@ -2,8 +2,8 @@
 // Created by Germain Jones on 19/08/2025.
 //
 
-#ifndef MATRIXCALCULATOR_IMATRIXMULTIPLICATION_H
-#define MATRIXCALCULATOR_IMATRIXMULTIPLICATION_H
+#ifndef DMLIB_IMATRIXMULTIPLICATION_H
+#define DMLIB_IMATRIXMULTIPLICATION_H
 
 #include <memory>
 
@@ -20,4 +20,4 @@ struct IMatrixMultiplication {
 
   virtual Matrix<int> operator()(const Matrix<int> &matrixA, const Matrix<int> &matrixB) const = 0;
 };
-#endif // MATRIXCALCULATOR_IMATRIXMULTIPLICATION_H
+#endif // DMLIB_IMATRIXMULTIPLICATION_H

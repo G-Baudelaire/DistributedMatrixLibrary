@@ -5,7 +5,8 @@ project(DMLib)
 set(CMAKE_CXX_STANDARD 26)
 set(CMAKE_CXX_STANDARD_REQUIRED 26)
 
-#find_package(MPI REQUIRED)
+find_package(MPI REQUIRED)
+include_directories(SYSTEM ${MPI_INCLUDE_PATH})
 
 # --- Library with your production sources ---
 add_library(DMLib
@@ -27,13 +28,16 @@ add_library(DMLib
         include/IMultiplication.h
         include/ISubtraction.h
         include/Matrix.hpp
+        source/MPICheck.cpp
+        include/MPICheck.h
 )
 
 # Expose headers to dependents (tests, apps)
 target_include_directories(DMLib
         PUBLIC
         "${CMAKE_CURRENT_SOURCE_DIR}/include"
-        "${MSMPI_INC}"         # PUBLIC if headers need MPI types
+        ${MSMPI_INC}         # PUBLIC if headers need MPI types
+        ${MPI_C_LIBRARIES}
 )
 
 # Link what dependents also need to link against (PUBLIC if types/macros leak via headers)
@@ -43,11 +47,18 @@ target_link_libraries(DMLib
 )
 
 # --- Your runnable app, linking the library ---
+
 add_executable(MatrixComputation
+        ${MSMPI_LIB}
         main.cpp
+        openmpi_test.h
+        openmpi_test.cpp
+        openmpi_test.cpp
 )
 target_link_libraries(MatrixComputation
         PRIVATE
+        ${MSMPI_LIB}
+        ${MPI_C_LIBRARIES}
         DMLib
 )
 

@@ -2,8 +2,8 @@
 // Created by Germain Jones on 19/08/2025.
 //
 
-#ifndef MATRIXCALCULATOR_ADDNAIVE_H
-#define MATRIXCALCULATOR_ADDNAIVE_H
+#ifndef DMLIB_NAIVEADDITION_H
+#define DMLIB_NAIVEADDITION_H
 
 #include "IAddition.h"
 
@@ -22,4 +22,4 @@ public:
 };
 
 
-#endif // MATRIXCALCULATOR_ADDNAIVE_H
+#endif // DMLIB_NAIVEADDITION_H

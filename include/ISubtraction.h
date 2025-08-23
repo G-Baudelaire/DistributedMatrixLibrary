@@ -2,8 +2,8 @@
 // Created by Germain Jones on 19/08/2025.
 //
 
-#ifndef MATRIXCALCULATOR_ISUBTRACTION_H
-#define MATRIXCALCULATOR_ISUBTRACTION_H
+#ifndef DMLIB_ISUBTRACTION_H
+#define DMLIB_ISUBTRACTION_H
 
 #include <memory>
 
@@ -20,4 +20,4 @@ struct ISubtraction {
 
   virtual Matrix<int> operator()(const Matrix<int> &matrixA, const Matrix<int> &matrixB) const = 0;
 };
-#endif // MATRIXCALCULATOR_ISUBTRACTION_H
+#endif // DMLIB_ISUBTRACTION_H

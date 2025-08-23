@@ -2,8 +2,9 @@
 // Created by Germain Jones on 19/08/2025.
 //
 
-#ifndef MATRIXCALCULATOR_NAIVEMATRIXMULTIPLICATION_H
-#define MATRIXCALCULATOR_NAIVEMATRIXMULTIPLICATION_H
+#ifndef DMLIB_NAIVEMATRIXMULTIPLICATION_H
+#define DMLIB_NAIVEMATRIXMULTIPLICATION_H
+
 #include "IMatrixMultiplication.h"
 
 class NaiveMatrixMultiplication final : public IMatrixMultiplication {
@@ -24,4 +25,4 @@ public:
 };
 
 
-#endif // MATRIXCALCULATOR_NAIVEMATRIXMULTIPLICATION_H
+#endif // DMLIB_NAIVEMATRIXMULTIPLICATION_H

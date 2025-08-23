@@ -2,8 +2,8 @@
 // Created by Germain Jones on 19/08/2025.
 //
 
-#ifndef MATRIXCALCULATOR_IADDITION_H
-#define MATRIXCALCULATOR_IADDITION_H
+#ifndef DMLIB_IADDITION_H
+#define DMLIB_IADDITION_H
 
 #include <memory>
 
@@ -23,4 +23,4 @@ struct IAddition {
 };
 
 
-#endif // MATRIXCALCULATOR_IADDITION_H
+#endif // DMLIB_IADDITION_H
