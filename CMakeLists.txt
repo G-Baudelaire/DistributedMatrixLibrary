@@ -8,13 +8,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED 26)
 find_package(MPI REQUIRED)
 include_directories(SYSTEM ${MPI_INCLUDE_PATH})
 
-# Manager
-add_executable(ParallelScalingManager manager.cpp)
-target_link_libraries(ParallelScalingManager PRIVATE DMLib MPI::MPI_CXX)
-
 # Worker
-add_executable(ParallelScalingWorker worker.cpp)
-target_link_libraries(ParallelScalingWorker PRIVATE DMLib MPI::MPI_CXX)
+add_executable(DistributedMultiplication distributed_implementations/DistributedMultiplication.cpp)
+target_link_libraries(DistributedMultiplication PRIVATE DMLib MPI::MPI_CXX)
 
 # --- Library with your production sources ---
 add_library(DMLib STATIC
@@ -37,6 +33,7 @@ add_library(DMLib STATIC
   include/Matrix.hpp
   source/DistributedMultiplication.cpp
   include/DistributedMultiplication.h
+  include/mpi_type_templates.h
 )
 
 # Expose headers to dependents (tests, apps)
@@ -45,9 +42,8 @@ target_include_directories(DMLib
   "${CMAKE_CURRENT_SOURCE_DIR}/include"
 )
 
-
 # Enable testing at the top level; tests added via subdir
 include(CTest)
 if (BUILD_TESTING)
-  add_subdirectory(tests)  # contains Googletest and the test targets
+  add_subdirectory(tests)  # contains Googletest and the test target
 endif ()

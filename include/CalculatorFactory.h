@@ -9,5 +9,6 @@
 class CalculatorFactory {
 public:
   static Calculator makeNaiveCalculator();
+  static Calculator makeDistributedCalculator();
 };
 #endif // DMLIB_CALCULATORFACTORY_H

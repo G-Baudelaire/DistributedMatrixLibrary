@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-# Run from project root directory
-cd ..
-cmake -S . -B build
-cmake --build build
-cd build
+set -euo pipefail
+
+BUILD_DIR="${BUILD_DIR:-build}"
+
+cmake -S . -B "$BUILD_DIR"
+cmake --build "$BUILD_DIR"
