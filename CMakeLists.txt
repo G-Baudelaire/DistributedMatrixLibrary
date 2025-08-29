@@ -8,9 +8,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED 26)
 find_package(MPI REQUIRED)
 include_directories(SYSTEM ${MPI_INCLUDE_PATH})
 
+# Manager
+add_executable(ParallelScalingManager manager.cpp)
+target_link_libraries(ParallelScalingManager PRIVATE DMLib MPI::MPI_CXX)
+
+# Worker
+add_executable(ParallelScalingWorker worker.cpp)
+target_link_libraries(ParallelScalingWorker PRIVATE DMLib MPI::MPI_CXX)
+
 # --- Library with your production sources ---
-add_library(DMLib
-  STATIC
+add_library(DMLib STATIC
   source/CalculatorFactory.cpp
   source/NaiveAddition.cpp
   source/NaiveSubtraction.cpp
@@ -28,20 +35,16 @@ add_library(DMLib
   include/IMultiplication.h
   include/ISubtraction.h
   include/Matrix.hpp
+  source/DistributedMultiplication.cpp
+  include/DistributedMultiplication.h
 )
 
 # Expose headers to dependents (tests, apps)
 target_include_directories(DMLib
   PUBLIC
   "${CMAKE_CURRENT_SOURCE_DIR}/include"
-  ${MPI_C_LIBRARIES}
 )
 
-# Link what dependents also need to link against (PUBLIC if types/macros leak via headers)
-target_link_libraries(DMLib
-  PUBLIC
-  "${MSMPI_LIB}"
-)
 
 # Enable testing at the top level; tests added via subdir
 include(CTest)
