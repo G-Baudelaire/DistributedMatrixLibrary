@@ -4,12 +4,12 @@
 #include <ostream>
 #include <vector>
 
-inline void getCountFromParent(int& elementCount, const MPI_Comm& parent) {
+inline void scatterCount(int& elementCount, const MPI_Comm& parent) {
   MPI_Scatter(nullptr, 0, MPI_DATATYPE_NULL, &elementCount, 1, MPI_INT, 0, parent);
 }
 
 template<class T>
-void getScalarFromParent(T& scalar, const MPI_Comm& parent) {
+void broadcastScalar(T& scalar, const MPI_Comm& parent) {
   MPI_Bcast(&scalar, 1, mpiType<T>(), 0, parent);
 }
 
@@ -28,10 +28,11 @@ void run(MPI_Comm& parent) {
   int count;
   T scalar;
 
-  getCountFromParent(count, parent);
+  broadcastScalar(scalar, parent);
+
+  scatterCount(count, parent);
   std::vector<T> elements(count);
 
-  getScalarFromParent(scalar, parent);
   getDataFromParent(elements, count, parent);
 
   for (T& element: elements) {

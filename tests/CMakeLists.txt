@@ -26,7 +26,6 @@ add_executable(DMLibTests
   MultiplicationTest.cc
   SubtractionTest.cc
   MatrixMultiplication.cc
-  DistributedMultiplicationTest.cc
 )
 
 target_link_libraries(DMLibTests
@@ -48,4 +47,8 @@ add_test(NAME DMLibTests
   COMMAND ${MPIEXEC_EXECUTABLE}
   ${MPIEXEC_NUMPROC_FLAG} 1
   $<TARGET_FILE:DMLibTests>
+)
+
+set_tests_properties(DMLibTests PROPERTIES
+  ENVIRONMENT "DISTRIBUTED_MULTIPLICATION_WORKER=$<TARGET_FILE:DistributedMultiplication>"
 )

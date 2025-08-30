@@ -10,6 +10,8 @@
 #include <NaiveMultiplication.h>
 #include <NaiveSubtraction.h>
 
+#include "WorkerNames.h"
+
 Calculator CalculatorFactory::makeNaiveCalculator() {
   return {
     std::make_unique<NaiveMultiplication>(),
@@ -21,7 +23,7 @@ Calculator CalculatorFactory::makeNaiveCalculator() {
 
 Calculator CalculatorFactory::makeDistributedCalculator() {
   return {
-    std::make_unique<DistributedMultiplication>("./DistributedMultiplication", 4),
+    std::make_unique<DistributedMultiplication>(DISTRIBUTED_MULTIPLICATION, 4),
     std::make_unique<NaiveMatrixMultiplication>(),
     std::make_unique<NaiveAddition>(),
     std::make_unique<NaiveSubtraction>()

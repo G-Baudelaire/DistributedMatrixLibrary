@@ -25,7 +25,7 @@ namespace {
 
   template<class T>
   void receiveResultData(
-    Matrix<T> &resultMatrix, const std::vector<int>& sendCounts, const std::vector<int>& displacement,
+    Matrix<T>& resultMatrix, const std::vector<int>& sendCounts, const std::vector<int>& displacement,
     const MPI_Comm& interCommunicator
   ) {
     MPI_Gatherv(
@@ -65,6 +65,8 @@ template<Numeric T>
 Matrix<T> DistributedMultiplication::genericMultiplication(const T& scalar, const Matrix<T>& matrix) const {
   MPI_Comm interCommunicator;
   spawnWorkers(workerExecutableName.c_str(), maxProcesses, interCommunicator);
+  int rank;
+  MPI_Comm_rank(interCommunicator, &rank);
 
   int numberOfProcesses;
   MPI_Comm_remote_size(interCommunicator, &numberOfProcesses);
@@ -80,7 +82,7 @@ Matrix<T> DistributedMultiplication::genericMultiplication(const T& scalar, cons
   MPI_Bcast(&scalarBuffer, 1, mpiType<T>(), MPI_ROOT, interCommunicator);
 
   int _receiveBuffer;
-  MPI_Scatter(sendCounts.data(), 1, mpiType<T>(), &_receiveBuffer, 0, MPI_DATATYPE_NULL, MPI_ROOT, interCommunicator);
+  MPI_Scatter(sendCounts.data(), 1, MPI_INT, &_receiveBuffer, 0, MPI_DATATYPE_NULL, MPI_ROOT, interCommunicator);
   sendMatrixData(matrix, sendCounts, displacement, interCommunicator);
 
   Matrix<T> resultMatrix(matrix.rows(), matrix.columns(), 0);

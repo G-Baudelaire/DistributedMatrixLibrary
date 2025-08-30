@@ -34,6 +34,7 @@ add_library(DMLib STATIC
   source/DistributedMultiplication.cpp
   include/DistributedMultiplication.h
   include/mpi_type_templates.h
+  include/WorkerNames.h
 )
 
 # Expose headers to dependents (tests, apps)
