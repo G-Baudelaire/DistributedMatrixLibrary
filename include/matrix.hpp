@@ -14,7 +14,7 @@
 #include <vector>
 
 // ---- Numeric concept/trait ----
-template<class T>
+template<class>
 struct is_std_complex : std::false_type {};
 
 template<class U>

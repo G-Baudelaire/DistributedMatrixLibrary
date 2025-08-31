@@ -9,32 +9,20 @@ find_package(MPI REQUIRED)
 include_directories(SYSTEM ${MPI_INCLUDE_PATH})
 
 # Worker
-add_executable(DistributedMultiplication distributed_implementations/DistributedMultiplication.cpp)
+add_executable(DistributedMultiplication distributed_workers/distributed_multiplication_worker.cpp)
 target_link_libraries(DistributedMultiplication PRIVATE DMLib MPI::MPI_CXX)
 
 # --- Library with your production sources ---
 add_library(DMLib STATIC
-  source/CalculatorFactory.cpp
-  source/NaiveAddition.cpp
-  source/NaiveSubtraction.cpp
-  source/NaiveMultiplication.cpp
-  source/NaiveMatrixMultiplication.cpp
-  include/MatrixMultiplication.h
-  include/NaiveAddition.h
-  include/NaiveSubtraction.h
-  include/NaiveMatrixMultiplication.h
-  include/NaiveMultiplication.h
-  include/Calculator.h
-  include/CalculatorFactory.h
-  include/IAddition.h
-  include/IMatrixMultiplication.h
-  include/IMultiplication.h
-  include/ISubtraction.h
+  include/naive_matrix_multiplication.hpp
+  include/distributed_multiplication.hpp
   include/Matrix.hpp
-  source/DistributedMultiplication.cpp
-  include/DistributedMultiplication.h
-  include/mpi_type_templates.h
-  include/WorkerNames.h
+  include/naive_addition.hpp
+  include/naive_matrix_multiplication.hpp
+  include/naive_multiplication.hpp
+  include/naive_subtraction.hpp
+  source/linker_dummy.cpp
+  include/mpi_type_templates.hpp
 )
 
 # Expose headers to dependents (tests, apps)
@@ -48,3 +36,7 @@ include(CTest)
 if (BUILD_TESTING)
   add_subdirectory(tests)  # contains Googletest and the test target
 endif ()
+
+set_target_properties(DMLib PROPERTIES
+  ENVIRONMENT "DISTRIBUTED_MULTIPLICATION_WORKER=$<TARGET_FILE:DistributedMultiplication>"
+)

@@ -4,6 +4,7 @@
 
 #ifndef DMLIB_MPI_TYPE_TEMPLATES_H
 #define DMLIB_MPI_TYPE_TEMPLATES_H
+
 template<class T>
 MPI_Datatype mpiType();
 
@@ -22,6 +23,11 @@ inline MPI_Datatype mpiType<double>() {
   return MPI_DOUBLE;
 }
 
+template<>
+inline MPI_Datatype mpiType<long>() {
+  return MPI_LONG;
+}
+
 template<class T>
 int dataType();
 
@@ -38,5 +44,10 @@ inline int dataType<float>() {
 template<>
 inline int dataType<double>() {
   return 2;
+}
+
+template<>
+inline int dataType<long>() {
+  return 3;
 }
 #endif // DMLIB_MPI_TYPE_TEMPLATES_H

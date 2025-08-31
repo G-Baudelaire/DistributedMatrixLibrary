@@ -1,6 +1,6 @@
 #include <iostream>
 #include <mpi.h>
-#include <mpi_type_templates.h>
+#include <mpi_type_templates.hpp>
 #include <ostream>
 #include <vector>
 
@@ -60,11 +60,13 @@ int main(int argc, char** argv) {
     case 2:
       run<double>(parent);
       break;
+    case 3:
+      run<long>(parent);
+      break;
     default:
       returnCode = 1;
       break;
   }
-
   MPI_Comm_disconnect(&parent);
   MPI_Finalize();
   return returnCode;
