@@ -16,7 +16,7 @@ target_link_libraries(DistributedMultiplication PRIVATE DMLib MPI::MPI_CXX)
 add_library(DMLib STATIC
   include/naive_matrix_multiplication.hpp
   include/distributed_multiplication.hpp
-  include/Matrix.hpp
+  include/matrix.hpp
   include/naive_addition.hpp
   include/naive_matrix_multiplication.hpp
   include/naive_multiplication.hpp

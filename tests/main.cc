@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <mpi.h>
 
-class MpiEnv : public ::testing::Environment {
+class MpiEnv final : public testing::Environment {
 public:
   void SetUp() override {
     int argc = 0;
