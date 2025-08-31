@@ -1,11 +1,10 @@
 //
-// Created by Germain Jones on 30/08/2025.
+// Created by Germain Jones on 31/08/2025.
 //
 
 #include <iostream>
 #include <mpi.h>
 #include <mpi_type_templates.hpp>
-#include <vector>
 
 namespace {
   void receive_count(int& elementCount, const MPI_Comm& parent) {
@@ -13,36 +12,31 @@ namespace {
   }
 
   template<class T>
-  void broadcastScalar(T& scalar, const MPI_Comm& parent) {
-    MPI_Bcast(&scalar, 1, mpiType<T>(), 0, parent);
+  void receive_matrix_data(T elements[], const int receiveCount, const MPI_Comm& parent) {
+    MPI_Scatterv(nullptr, nullptr, nullptr, MPI_DATATYPE_NULL, elements, receiveCount, mpiType<T>(), 0, parent);
   }
 
   template<class T>
-  void getDataFromParent(std::vector<T>& elements, const int elementCount, const MPI_Comm& parent) {
-    MPI_Scatterv(nullptr, nullptr, nullptr, MPI_DATATYPE_NULL, elements.data(), elementCount, mpiType<T>(), 0, parent);
-  }
-
-  template<class T>
-  void returnDataToParent(const std::vector<T>& elements, const int elementCount, const MPI_Comm& parent) {
-    MPI_Gatherv(elements.data(), elementCount, mpiType<T>(), nullptr, nullptr, nullptr, MPI_DATATYPE_NULL, 0, parent);
+  void send_result_data(const T elements[], const int elementCount, const MPI_Comm& parent) {
+    MPI_Gatherv(elements, elementCount, mpiType<T>(), nullptr, nullptr, nullptr, MPI_DATATYPE_NULL, 0, parent);
   }
 
   template<class T>
   void run(MPI_Comm& parent) {
     int count;
-    T scalar;
-
-    broadcastScalar(scalar, parent);
 
     receive_count(count, parent);
-    std::vector<T> elements(count);
 
-    getDataFromParent(elements, count, parent);
+    T matrixAData[count];
+    T matrixBData[count];
+    receive_matrix_data(matrixAData, count, parent);
+    receive_matrix_data(matrixBData, count, parent);
 
-    for (T& element: elements) {
-      element *= scalar;
+    for (int i = 0; i < count; i++) {
+      matrixAData[i] += matrixBData[i];
     }
-    returnDataToParent(elements, count, parent);
+
+    send_result_data(matrixAData, count, parent);
   }
 } // namespace
 

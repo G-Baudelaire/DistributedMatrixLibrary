@@ -12,6 +12,12 @@ include_directories(SYSTEM ${MPI_INCLUDE_PATH})
 add_executable(DistributedMultiplication distributed_workers/distributed_multiplication_worker.cpp)
 target_link_libraries(DistributedMultiplication PRIVATE DMLib MPI::MPI_CXX)
 
+add_executable(DistributedAddition distributed_workers/distributed_addition_worker.cpp)
+target_link_libraries(DistributedAddition PRIVATE DMLib MPI::MPI_CXX)
+
+add_executable(DistributedSubtraction distributed_workers/distributed_subtraction_worker.cpp)
+target_link_libraries(DistributedSubtraction PRIVATE DMLib MPI::MPI_CXX)
+
 # --- Library with your production sources ---
 add_library(DMLib STATIC
   include/naive_matrix_multiplication.hpp
@@ -23,6 +29,8 @@ add_library(DMLib STATIC
   include/naive_subtraction.hpp
   source/linker_dummy.cpp
   include/mpi_type_templates.hpp
+  include/distributed_addition.h
+  include/distributed_subtraction.h
 )
 
 # Expose headers to dependents (tests, apps)
@@ -38,5 +46,6 @@ if (BUILD_TESTING)
 endif ()
 
 set_target_properties(DMLib PROPERTIES
-  ENVIRONMENT "DISTRIBUTED_MULTIPLICATION_WORKER=$<TARGET_FILE:DistributedMultiplication>"
+  ENVIRONMENT
+  "DISTRIBUTED_MULTIPLICATION_WORKER=$<TARGET_FILE:DistributedMultiplication>;DISTRIBUTED_ADDITION_WORKER=$<TARGET_FILE:DistributedAddition>;DISTRIBUTED_SUBTRACTION_WORKER=$<TARGET_FILE:DistributedSubtraction>"
 )

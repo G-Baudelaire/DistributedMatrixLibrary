@@ -5,6 +5,7 @@
 #include <gtest/gtest.h>
 #include <matrix.hpp>
 
+#include "distributed_subtraction.h"
 #include "naive_subtraction.hpp"
 
 using testing::TestWithParam, testing::Values, testing::TestParamInfo;
@@ -35,6 +36,10 @@ SUBTRACTION_VALIDITY_TEST(float, dml::naive_subtraction, Naive)
 SUBTRACTION_VALIDITY_TEST(double, dml::naive_subtraction, Naive)
 SUBTRACTION_VALIDITY_TEST(long, dml::naive_subtraction, Naive)
 
+SUBTRACTION_VALIDITY_TEST(int, dml::distributed_subtraction, Distributed)
+SUBTRACTION_VALIDITY_TEST(float, dml::distributed_subtraction, Distributed)
+SUBTRACTION_VALIDITY_TEST(double, dml::distributed_subtraction, Distributed)
+SUBTRACTION_VALIDITY_TEST(long, dml::distributed_subtraction, Distributed)
 
 #define SUBTRACTION_ERROR_TEST(SUBTRACTION_FUNCTION, SUBTRACTION_FUNCTION_NAME)       \
   TEST(SubtractionErrorTest, SUBTRACTION_FUNCTION_NAME##ThrowOnDifferentRowSize) {    \
@@ -50,3 +55,4 @@ SUBTRACTION_VALIDITY_TEST(long, dml::naive_subtraction, Naive)
   }
 
 SUBTRACTION_ERROR_TEST(dml::naive_subtraction, Naive)
+SUBTRACTION_ERROR_TEST(dml::distributed_subtraction, Distributed)

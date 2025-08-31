@@ -2,8 +2,8 @@
 // Created by Germain Jones on 31/08/2025.
 //
 
-#ifndef DMLIB_DISTRIBUTED_MULTIPLICATION_H
-#define DMLIB_DISTRIBUTED_MULTIPLICATION_H
+#ifndef DMLIB_DISTRIBUTED_SUBTRACTION_H
+#define DMLIB_DISTRIBUTED_SUBTRACTION_H
 
 #include <mpi.h>
 #include <numeric>
@@ -14,7 +14,7 @@
 
 namespace dml {
   template<Numeric T>
-  Matrix<T> distributed_multiplication(const T& scalar, const Matrix<T>& matrix);
+  Matrix<T> distributed_subtraction(const T& scalar, const Matrix<T>& matrix);
 
   namespace detail {
     inline void spawnWorkers(const char* command, const int maxProcesses, MPI_Comm& interCommunicator) {
@@ -79,9 +79,13 @@ namespace dml {
   } // namespace detail
 
   template<Numeric T>
-  Matrix<T> distributed_multiplication(const T& scalar, const Matrix<T>& matrix) {
-    const char* path = std::getenv("DISTRIBUTED_MULTIPLICATION_WORKER");
-    if (!path) throw std::runtime_error("DISTRIBUTED_MULTIPLICATION_WORKER not set!");
+  Matrix<T> distributed_subtraction(const Matrix<T>& matrixA, const Matrix<T>& matrixB) {
+    const char* path = std::getenv("DISTRIBUTED_SUBTRACTION_WORKER");
+    if (!path) throw std::runtime_error("DISTRIBUTED_SUBTRACTION_WORKER not set!");
+
+    if (matrixA.rows() != matrixB.rows() || matrixA.columns() != matrixB.columns()) {
+      throw std::invalid_argument("Matrix sizes do not match up.");
+    }
 
     MPI_Comm interCommunicator;
     detail::spawnWorkers(path, 4, interCommunicator);
@@ -89,24 +93,22 @@ namespace dml {
     int numberOfProcesses;
     MPI_Comm_remote_size(interCommunicator, &numberOfProcesses);
 
-    std::vector<int> sendCounts = detail::computeCounts(numberOfProcesses, matrix.rows(), matrix.columns());
+    std::vector<int> sendCounts = detail::computeCounts(numberOfProcesses, matrixA.rows(), matrixA.columns());
     std::vector<int> displacement(sendCounts.size());
     std::exclusive_scan(sendCounts.begin(), sendCounts.end(), displacement.begin(), 0);
 
     int dataTypeBuffer = dataType<T>();
     MPI_Bcast(&dataTypeBuffer, 1, MPI_INT, MPI_ROOT, interCommunicator);
 
-    T scalarBuffer = scalar;
-    MPI_Bcast(&scalarBuffer, 1, mpiType<T>(), MPI_ROOT, interCommunicator);
-
     int _receiveBuffer;
     MPI_Scatter(sendCounts.data(), 1, MPI_INT, &_receiveBuffer, 0, MPI_DATATYPE_NULL, MPI_ROOT, interCommunicator);
-    detail::sendMatrixData(matrix, sendCounts, displacement, interCommunicator);
+    detail::sendMatrixData(matrixA, sendCounts, displacement, interCommunicator);
+    detail::sendMatrixData(matrixB, sendCounts, displacement, interCommunicator);
 
-    Matrix<T> resultMatrix(matrix.rows(), matrix.columns());
+    Matrix<T> resultMatrix(matrixA.rows(), matrixA.columns());
     detail::receiveResultData(resultMatrix, sendCounts, displacement, interCommunicator);
     MPI_Comm_disconnect(&interCommunicator);
     return resultMatrix;
   }
 } // namespace dml
-#endif // DMLIB_DISTRIBUTED_MULTIPLICATION_H
+#endif // DMLIB_DISTRIBUTED_SUBTRACTION_H

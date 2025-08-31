@@ -5,6 +5,7 @@
 #include <gtest/gtest.h>
 #include <matrix.hpp>
 
+#include "distributed_addition.h"
 #include "naive_addition.hpp"
 
 using testing::TestWithParam, testing::Values, testing::TestParamInfo;
@@ -31,9 +32,13 @@ using testing::TestWithParam, testing::Values, testing::TestParamInfo;
   }
 
 ADDITION_VALIDITY_TEST(int, dml::naive_addition, Naive)
+ADDITION_VALIDITY_TEST(int, dml::distributed_addition, Distributed)
 ADDITION_VALIDITY_TEST(float, dml::naive_addition, Naive)
+ADDITION_VALIDITY_TEST(float, dml::distributed_addition, Distributed)
 ADDITION_VALIDITY_TEST(double, dml::naive_addition, Naive)
+ADDITION_VALIDITY_TEST(double, dml::distributed_addition, Distributed)
 ADDITION_VALIDITY_TEST(long, dml::naive_addition, Naive)
+ADDITION_VALIDITY_TEST(long, dml::distributed_addition, Distributed)
 
 
 #define MATRIX_MULTIPLICATION_ERROR_TEST(ADDITION_FUNCTION, ADDITION_FUNCTION_NAME) \
@@ -50,3 +55,4 @@ ADDITION_VALIDITY_TEST(long, dml::naive_addition, Naive)
   }
 
 MATRIX_MULTIPLICATION_ERROR_TEST(dml::naive_addition, Naive)
+MATRIX_MULTIPLICATION_ERROR_TEST(dml::distributed_addition, Distributed)

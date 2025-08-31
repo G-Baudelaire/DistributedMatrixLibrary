@@ -37,18 +37,23 @@ target_link_libraries(DMLibTests
 # Ensure the worker exe is built before tests run
 add_dependencies(DMLibTests
   DistributedMultiplication
+  DistributedAddition
+  DistributedSubtraction
   DMLib
 )
 
 # ---- Register the test to run under mpirun -np 1 ----
 include(CTest)
 include(GoogleTest)
+
 add_test(NAME DMLibTests
   COMMAND ${MPIEXEC_EXECUTABLE}
-  --oversubscribe
+  #  --oversubscribe
   ${MPIEXEC_NUMPROC_FLAG} 1
   $<TARGET_FILE:DMLibTests>
 )
+
 set_tests_properties(DMLibTests PROPERTIES
-  ENVIRONMENT "DISTRIBUTED_MULTIPLICATION_WORKER=$<TARGET_FILE:DistributedMultiplication>"
+  ENVIRONMENT
+  "DISTRIBUTED_MULTIPLICATION_WORKER=$<SHELL_PATH:$<TARGET_FILE:DistributedMultiplication>>;DISTRIBUTED_ADDITION_WORKER=$<SHELL_PATH:$<TARGET_FILE:DistributedAddition>>;DISTRIBUTED_SUBTRACTION_WORKER=$<SHELL_PATH:$<TARGET_FILE:DistributedSubtraction>>"
 )
