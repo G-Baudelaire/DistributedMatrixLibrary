@@ -36,7 +36,6 @@ namespace {
     for (int i = 0; i < count; i++) {
       matrixAData[i] += matrixBData[i];
     }
-
     send_result_data(matrixAData.data(), count, parent);
   }
 } // namespace

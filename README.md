@@ -1,37 +1,5 @@
 # Distributed Matrix Library
 
-A small project for practicing distributed programming skills.
-
-***
-
-## Building
-
-The project can be built by running
-
-```bash
-cmake -P build.cmake
-```
-
-***
-
-## Run Tests
-
-When you have the repository cloned and built you can test that the project works as intended by building and running
-the test
-executable.
-
-```bash
-cmake -P run_tests.cmake
-```
-
-***
-
-## Functions
-
-***
-
-# Distributed Matrix Library
-
 A C++ library and set of worker executables for experimenting with distributed matrix operations using MPI.
 The project implements both naïve single-process operations and distributed worker-based operations, providing a
 foundation for practicing high-performance and parallel programming techniques.
@@ -96,7 +64,7 @@ cmake -P run_benchmark.cmake
 or run the target directly using
 
 ```bash
-cmake --build build --target run_bench
+cmake --build build --target run_benchmark
 ```
 
 ---

@@ -47,7 +47,7 @@ void benchmark_function(const std::function<funcType>& func, int expo) {
 
 int main(const int argc, char** argv) {
   MPI_Init(&argc, &argv);
-  benchmark_function(dml::naive_addition<int>, 16);
-  benchmark_function(dml::distributed_addition<int>, 14);
+  benchmark_function(dml::naive_addition<int>, 15);
+  benchmark_function(dml::distributed_addition<int>, 15);
   MPI_Finalize();
 }

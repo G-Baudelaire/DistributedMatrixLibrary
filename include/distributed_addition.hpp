@@ -87,7 +87,7 @@ namespace dml {
 
     const std::string path = detail::addition_worker_path();
     MPI_Comm interCommunicator;
-    detail::spawnWorkers(path.c_str(), 4, interCommunicator);
+    detail::spawnWorkers(path.c_str(), 2, interCommunicator);
 
     int numberOfProcesses;
     MPI_Comm_remote_size(interCommunicator, &numberOfProcesses);
