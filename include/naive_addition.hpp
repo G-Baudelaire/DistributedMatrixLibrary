@@ -15,11 +15,11 @@ namespace dml {
     }
 
     Matrix<T> result(matrixA.rows(), matrixB.columns(), T{});
+    T *resultData = result.data();
+    const T *matrixAData = matrixA.data(), *matrixBData = matrixB.data();
 
-    for (size_t row = 0; row < matrixA.rows(); row++) {
-      for (size_t column = 0; column < matrixA.columns(); column++) {
-        result(row, column) = matrixA(row, column) + matrixB(row, column);
-      }
+    for (int i = 0; i < matrixA.rows() * matrixA.columns(); i++) {
+      resultData[i] = matrixAData[i] + matrixBData[i];
     }
 
     return result;
