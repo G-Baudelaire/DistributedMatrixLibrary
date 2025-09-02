@@ -18,13 +18,13 @@ namespace {
   }
 
   template<class T>
-  void getDataFromParent(std::vector<T>& elements, const int elementCount, const MPI_Comm& parent) {
-    MPI_Scatterv(nullptr, nullptr, nullptr, MPI_DATATYPE_NULL, elements.data(), elementCount, mpiType<T>(), 0, parent);
+  void getDataFromParent(T* elements, const int elementCount, const MPI_Comm& parent) {
+    MPI_Scatterv(nullptr, nullptr, nullptr, MPI_DATATYPE_NULL, elements, elementCount, mpiType<T>(), 0, parent);
   }
 
   template<class T>
-  void returnDataToParent(const std::vector<T>& elements, const int elementCount, const MPI_Comm& parent) {
-    MPI_Gatherv(elements.data(), elementCount, mpiType<T>(), nullptr, nullptr, nullptr, MPI_DATATYPE_NULL, 0, parent);
+  void returnDataToParent(const T* elements, const int elementCount, const MPI_Comm& parent) {
+    MPI_Gatherv(elements, elementCount, mpiType<T>(), nullptr, nullptr, nullptr, MPI_DATATYPE_NULL, 0, parent);
   }
 
   template<class T>
@@ -37,12 +37,12 @@ namespace {
     receive_count(count, parent);
     std::vector<T> elements(count);
 
-    getDataFromParent(elements, count, parent);
+    getDataFromParent(elements.data(), count, parent);
 
     for (T& element: elements) {
       element *= scalar;
     }
-    returnDataToParent(elements, count, parent);
+    returnDataToParent(elements.data(), count, parent);
   }
 } // namespace
 

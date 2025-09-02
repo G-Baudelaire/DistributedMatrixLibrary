@@ -10,6 +10,7 @@
 
 #include "matrix.hpp"
 #include "mpi_type_templates.hpp"
+#include "worker_path.hpp"
 
 
 namespace dml {
@@ -80,11 +81,9 @@ namespace dml {
 
   template<Numeric T>
   Matrix<T> distributed_multiplication(const T& scalar, const Matrix<T>& matrix) {
-    const char* path = std::getenv("DISTRIBUTED_MULTIPLICATION_WORKER");
-    if (!path) throw std::runtime_error("DISTRIBUTED_MULTIPLICATION_WORKER not set!");
-
     MPI_Comm interCommunicator;
-    detail::spawnWorkers(path, 4, interCommunicator);
+    const std::string path = detail::multiplication_worker_path();
+    detail::spawnWorkers(path.c_str(), 4, interCommunicator);
 
     int numberOfProcesses;
     MPI_Comm_remote_size(interCommunicator, &numberOfProcesses);

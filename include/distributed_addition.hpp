@@ -11,10 +11,11 @@
 #include "matrix.hpp"
 #include "mpi_type_templates.hpp"
 
+#include "worker_path.hpp"
 
 namespace dml {
   template<Numeric T>
-  Matrix<T> distributed_addition(const T& scalar, const Matrix<T>& matrix);
+  Matrix<T> distributed_addition(const Matrix<T>& matrixA, const Matrix<T>& matrixB);
 
   namespace detail {
     inline void spawnWorkers(const char* command, const int maxProcesses, MPI_Comm& interCommunicator) {
@@ -80,25 +81,23 @@ namespace dml {
 
   template<Numeric T>
   Matrix<T> distributed_addition(const Matrix<T>& matrixA, const Matrix<T>& matrixB) {
-    const char* path = std::getenv("DISTRIBUTED_ADDITION_WORKER");
-    if (!path) throw std::runtime_error("DISTRIBUTED_ADDITION_WORKER not set!");
-
     if (matrixA.rows() != matrixB.rows() || matrixA.columns() != matrixB.columns()) {
       throw std::invalid_argument("Matrix sizes do not match up.");
     }
 
+    const std::string path = detail::addition_worker_path();
     MPI_Comm interCommunicator;
-    detail::spawnWorkers(path, 4, interCommunicator);
+    detail::spawnWorkers(path.c_str(), 4, interCommunicator);
 
     int numberOfProcesses;
     MPI_Comm_remote_size(interCommunicator, &numberOfProcesses);
 
+    int dataTypeBuffer = dataType<T>();
+    MPI_Bcast(&dataTypeBuffer, 1, MPI_INT, MPI_ROOT, interCommunicator);
+
     std::vector<int> sendCounts = detail::computeCounts(numberOfProcesses, matrixA.rows(), matrixA.columns());
     std::vector<int> displacement(sendCounts.size());
     std::exclusive_scan(sendCounts.begin(), sendCounts.end(), displacement.begin(), 0);
-
-    int dataTypeBuffer = dataType<T>();
-    MPI_Bcast(&dataTypeBuffer, 1, MPI_INT, MPI_ROOT, interCommunicator);
 
     int _receiveBuffer;
     MPI_Scatter(sendCounts.data(), 1, MPI_INT, &_receiveBuffer, 0, MPI_DATATYPE_NULL, MPI_ROOT, interCommunicator);

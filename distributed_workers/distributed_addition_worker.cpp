@@ -5,6 +5,7 @@
 #include <iostream>
 #include <mpi.h>
 #include <mpi_type_templates.hpp>
+#include <vector>
 
 namespace {
   void receive_count(int& elementCount, const MPI_Comm& parent) {
@@ -12,12 +13,12 @@ namespace {
   }
 
   template<class T>
-  void receive_matrix_data(T elements[], const int receiveCount, const MPI_Comm& parent) {
+  void receive_matrix_data(T* elements, const int receiveCount, const MPI_Comm& parent) {
     MPI_Scatterv(nullptr, nullptr, nullptr, MPI_DATATYPE_NULL, elements, receiveCount, mpiType<T>(), 0, parent);
   }
 
   template<class T>
-  void send_result_data(const T elements[], const int elementCount, const MPI_Comm& parent) {
+  void send_result_data(const T* elements, const int elementCount, const MPI_Comm& parent) {
     MPI_Gatherv(elements, elementCount, mpiType<T>(), nullptr, nullptr, nullptr, MPI_DATATYPE_NULL, 0, parent);
   }
 
@@ -27,16 +28,16 @@ namespace {
 
     receive_count(count, parent);
 
-    T matrixAData[count];
-    T matrixBData[count];
-    receive_matrix_data(matrixAData, count, parent);
-    receive_matrix_data(matrixBData, count, parent);
+    std::vector<T> matrixAData(count);
+    std::vector<T> matrixBData(count);
+    receive_matrix_data(matrixAData.data(), count, parent);
+    receive_matrix_data(matrixBData.data(), count, parent);
 
     for (int i = 0; i < count; i++) {
       matrixAData[i] += matrixBData[i];
     }
 
-    send_result_data(matrixAData, count, parent);
+    send_result_data(matrixAData.data(), count, parent);
   }
 } // namespace
 

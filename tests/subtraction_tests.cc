@@ -5,7 +5,7 @@
 #include <gtest/gtest.h>
 #include <matrix.hpp>
 
-#include "distributed_subtraction.h"
+#include "distributed_subtraction.hpp"
 #include "naive_subtraction.hpp"
 
 using testing::TestWithParam, testing::Values, testing::TestParamInfo;

@@ -10,6 +10,7 @@
 
 #include "matrix.hpp"
 #include "mpi_type_templates.hpp"
+#include "worker_path.hpp"
 
 
 namespace dml {
@@ -80,15 +81,13 @@ namespace dml {
 
   template<Numeric T>
   Matrix<T> distributed_subtraction(const Matrix<T>& matrixA, const Matrix<T>& matrixB) {
-    const char* path = std::getenv("DISTRIBUTED_SUBTRACTION_WORKER");
-    if (!path) throw std::runtime_error("DISTRIBUTED_SUBTRACTION_WORKER not set!");
-
     if (matrixA.rows() != matrixB.rows() || matrixA.columns() != matrixB.columns()) {
       throw std::invalid_argument("Matrix sizes do not match up.");
     }
 
+    const std::string path = detail::subtraction_worker_path();
     MPI_Comm interCommunicator;
-    detail::spawnWorkers(path, 4, interCommunicator);
+    detail::spawnWorkers(path.c_str(), 4, interCommunicator);
 
     int numberOfProcesses;
     MPI_Comm_remote_size(interCommunicator, &numberOfProcesses);
